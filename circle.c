@@ -19,7 +19,8 @@ int main() {
 	bool animating_f1 = false, animating_f2 = false;
 
 	const float linear_speed = 10;
-	float angle;
+	const float rotational_speed = 2.0f * PI / 120.0f;
+	float angle = 0;
 
 	SetTargetFPS(60);	
 
@@ -43,10 +44,18 @@ int main() {
 		}
 		else if (animating_f2)
 		{
-			angle += 3.14f * GetFrameTime();
+			angle += rotational_speed;
+			if (angle >= 2*PI)
+				angle -= 2*PI;
 
-			ball_vel.x = linear_speed * cosf(angle);
-			ball_vel.y = linear_speed * sinf(angle);
+			ball_vel.x = -rotational_speed * circle_radius * cosf(angle);
+			ball_vel.y =  rotational_speed * circle_radius * sinf(angle);
+
+			//circle_radius -= 0.5f;
+			//if (circle_radius <= 0)
+			//{
+			//	circle_radius = 0;
+			//}
 		}
 
 		ball_pos.y += ball_vel.y;
@@ -56,6 +65,7 @@ int main() {
 		
 		ClearBackground(BLACK);
 		DrawCircleV(ball_pos, 10, RED);
+		DrawCircle(circle_origin.x, circle_origin.y, 10, WHITE);
 		
 		EndDrawing();
 
