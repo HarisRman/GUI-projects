@@ -7,6 +7,7 @@
 
 #define TOP_OFFSET 50
 
+
 int main() {
 	InitWindow(WIN_W, WIN_H, "Circle");
 
@@ -14,12 +15,15 @@ int main() {
 	Vector2 ball_vel = {0,0};
 
 	const Vector2 circle_origin = { WIN_W/2, WIN_H/2 };
-        float circle_radius = circle_origin.y - TOP_OFFSET;	
+        const float rotation_length = circle_origin.y - TOP_OFFSET;
+	float circle_radius = rotation_length;	
 
 	bool animating_f1 = false, animating_f2 = false;
 
+	bool ball_falling = true;
+
 	const float linear_speed = 10;
-	const float rotational_speed = 2.0f * PI / 120.0f;
+	const float rotational_speed = 2.0f * PI / 180.0f;
 	float angle = 0;
 
 	SetTargetFPS(60);	
@@ -51,11 +55,16 @@ int main() {
 			ball_vel.x = -rotational_speed * circle_radius * cosf(angle);
 			ball_vel.y =  rotational_speed * circle_radius * sinf(angle);
 
-			//circle_radius -= 0.5f;
-			//if (circle_radius <= 0)
-			//{
-			//	circle_radius = 0;
-			//}
+
+			if (ball_falling)
+				circle_radius -= 0.1f;
+			else 	
+				circle_radius += 0.1f;
+
+			if (ball_falling && circle_radius <= 0)
+				ball_falling = false;
+			else if (circle_radius >= rotation_length)
+				ball_falling = true;
 		}
 
 		ball_pos.y += ball_vel.y;
@@ -64,8 +73,8 @@ int main() {
 		BeginDrawing();
 		
 		ClearBackground(BLACK);
-		DrawCircleV(ball_pos, 10, RED);
-		DrawCircle(circle_origin.x, circle_origin.y, 10, WHITE);
+		DrawCircleV(ball_pos, 20, BLUE);
+		DrawCircle(circle_origin.x, circle_origin.y, 40, YELLOW);
 		
 		EndDrawing();
 
