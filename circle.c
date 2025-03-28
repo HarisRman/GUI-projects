@@ -23,7 +23,7 @@ int main() {
 	bool ball_falling = true;
 
 	const float linear_speed = 10;
-	const float rotational_speed = 2.0f * PI / 180.0f;
+	const float rotational_speed = 2.0f * PI / 120.0f;
 	float angle = 0;
 
 	SetTargetFPS(60);	
@@ -57,11 +57,11 @@ int main() {
 
 
 			if (ball_falling)
-				circle_radius -= 0.1f;
+				circle_radius -= 0.25f;
 			else 	
-				circle_radius += 0.1f;
+				circle_radius += 0.25f;
 
-			if (ball_falling && circle_radius <= 0)
+			if (ball_falling && circle_radius <= 50)
 				ball_falling = false;
 			else if (circle_radius >= rotation_length)
 				ball_falling = true;
